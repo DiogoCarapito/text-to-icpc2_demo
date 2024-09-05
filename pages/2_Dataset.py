@@ -7,7 +7,7 @@ st.write(
     "Este é um explorador do dataset de treino, onde é possível filtrar os registros por código, texto, capítulo e origem."
 )
 st.write(
-    "O dataset está disponivel em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
+    "O dataset de treino está disponivel em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
 )
 
 # load the pos-processed dataset

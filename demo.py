@@ -37,6 +37,7 @@ def main():
         st.write(
             "O modelo foi treinado com a biblioteca Hugging Face *transformers* com base no modelo pré-treinado **bert-base-uncased** e está disponível em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
         )
+        st.write("Este projeto foi desenvolvido por Diogo Carapito com o apoio de bolsa de inviestigação da [AICIB](https://aicib.pt/) e [APMGF](https://apmgf.pt/) no âmbito do internato médico de MGF")
 
     # get available device
     available_device = device_cuda_mps_cpu(force_cpu=True)
@@ -46,7 +47,7 @@ def main():
 
     # text input
     text = st.text_input(
-        "Coloque um diagnóstico o modelo classificar", "diabetes mellitus"
+        "Coloque um diagnóstico para o modelo classificar", "diabetes mellitus"
     )
 
     # Record the start time
