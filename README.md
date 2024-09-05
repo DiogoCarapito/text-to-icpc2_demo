@@ -1,5 +1,5 @@
 # text-to-icpc2 demo
-Streamlit demo of text-to-icpc2 classification model
+Streamlit demo of text-to-icpc2 classification model to clasify diagnosis into icpc2 codes
 
 [![Github Actions Workflow](https://github.com/DiogoCarapito/text-to-icpc2_demo/actions/workflows/main.yaml/badge.svg)](https://github.com/DiogoCarapito/text-to-icpc2_demo/actions/workflows/main.yaml)
 

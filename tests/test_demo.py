@@ -4,7 +4,8 @@ from streamlit.testing.v1 import AppTest
 
 pages = [
     "demo.py",
-    "pages/2_Validation.py",
+    "pages/2_Dataset.py",
+    "pages/3_Validação.py",
 ]
 
 

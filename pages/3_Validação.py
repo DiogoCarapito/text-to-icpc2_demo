@@ -1,5 +1,4 @@
 import streamlit as st
 
 st.title("Validation")
-
-st.write("not implemented yet")
+st.write("This page is under construction")

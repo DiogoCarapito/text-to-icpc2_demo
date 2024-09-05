@@ -2,6 +2,7 @@ import streamlit as st
 from transformers import pipeline
 from datasets import load_dataset
 import torch
+import pandas as pd
 
 
 def device_cuda_mps_cpu(force_cpu=False):
@@ -50,6 +51,12 @@ def load_val_dataset(dataset_link):
     return val_list
 
 
+@st.cache_data()
+def load_csv_github(github_raw_url):
+    df = pd.read_csv(github_raw_url)
+    return df
+
+
 def add_labels_to_prediction(prediction, val_list):
     for each in prediction:
         # add a new key,value pair to each dict
@@ -59,14 +66,29 @@ def add_labels_to_prediction(prediction, val_list):
     return prediction
 
 
-def prediction_display(prediction):
+def prediction_display(prediction, labels_dataframe):
     for each in prediction:
-        # st.metric(
-        #     label="ICPC2 predicted code",
-        #     value=f"{each['label']}",
-        #     label_visibility="collapsed")
+        label = each["label"]
+        description = labels_dataframe[labels_dataframe["cod"] == label]["nome"].values[
+            0
+        ]
 
-        st.write(f"## {each['label']} - {each['description']}")
+        st.write(f"## {label} - {description}")
+
+        include = labels_dataframe[labels_dataframe["cod"] == label]["incl"].values[0]
+
+        st.write("### Inclui")
+        st.write(include)
+
+        exclude = labels_dataframe[labels_dataframe["cod"] == label]["excl"].values[0]
+
+        st.write("### Exclui")
+        st.write(exclude)
+
+        criteria = labels_dataframe[labels_dataframe["cod"] == label]["crit"].values[0]
+
+        st.write("### Critérios")
+        st.write(criteria)
 
 
 def func():
