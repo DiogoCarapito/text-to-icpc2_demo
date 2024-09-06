@@ -3,11 +3,10 @@
 from streamlit.testing.v1 import AppTest
 
 pages = [
-    "demo.py",
-    "pages/2_Dataset.py",
-    "pages/3_Validação.py",
+    "app.py",
+    # "pages/2_Dataset.py",
+    # "pages/3_Validação.py",
 ]
-
 
 for each_page in pages:
     test = AppTest(each_page, default_timeout=30)

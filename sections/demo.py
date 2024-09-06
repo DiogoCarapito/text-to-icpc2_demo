@@ -1,30 +1,18 @@
 import streamlit as st
-
-# from transformers import pipeline
-# from datasets import load_dataset
-# import numpy as np
-# import torch
 import timeit
-
 from utils.utils import (
     device_cuda_mps_cpu,
     load_model,
-    # load_val_dataset,
-    # add_labels_to_prediction,
     prediction_display,
-    # load_labels_dataframe,
     load_csv_github,
 )
 
+# import pandas as pd
+# import numpy as np
+# import plotly.express as px
 
-def main():
-    st.set_page_config(
-        page_title="text-to-icpc2 Demo",
-        page_icon=":ledger:",
-        layout="wide",
-        initial_sidebar_state="auto",
-    )
 
+def demo():
     st.title("text-to-icpc2 Demo")
     expander_descrição = st.expander("Descrição do projeto")
     with expander_descrição:
@@ -37,7 +25,12 @@ def main():
         st.write(
             "O modelo foi treinado com a biblioteca Hugging Face *transformers* com base no modelo pré-treinado **bert-base-uncased** e está disponível em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
         )
-        st.write("Este projeto foi desenvolvido por Diogo Carapito com o apoio de bolsa de inviestigação da [AICIB](https://aicib.pt/) e [APMGF](https://apmgf.pt/) no âmbito do internato médico de MGF")
+        st.write(
+            "Este projeto foi desenvolvido por Diogo Carapito com o apoio de bolsa de inviestigação da [AICIB](https://aicib.pt/) e [APMGF](https://apmgf.pt/) no âmbito do internato médico de MGF"
+        )
+        st.write(
+            "Github do projeto: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/DiogoCarapito/text-to-icpc2)"
+        )
 
     # get available device
     available_device = device_cuda_mps_cpu(force_cpu=True)
@@ -79,7 +72,3 @@ def main():
 
     # Display the prediction
     prediction_display(prediction, lables_dataframe)
-
-
-if __name__ == "__main__":
-    main()

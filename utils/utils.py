@@ -1,8 +1,9 @@
 import streamlit as st
 from transformers import pipeline
-from datasets import load_dataset
 import torch
 import pandas as pd
+
+# from datasets import load_dataset
 
 
 def device_cuda_mps_cpu(force_cpu=False):
@@ -34,21 +35,21 @@ def load_model(model_name, available_device):
     return pipe
 
 
-@st.cache_data()
-def load_val_dataset(dataset_link):
-    # Load the dataset to get the corresponding codes
-    dataset = load_dataset(dataset_link)
+# @st.cache_data()
+# def load_val_dataset(dataset_link):
+#     # Load the dataset to get the corresponding codes
+#     dataset = load_dataset(dataset_link)
 
-    # transform to pandas DataFrame
-    dataset = dataset["train"].to_pandas()
+#     # transform to pandas DataFrame
+#     dataset = dataset["train"].to_pandas()
 
-    # filter only to origin icpc2_description
-    val_dataset = dataset[dataset["origin"] == "icpc2_description"]
+#     # filter only to origin icpc2_description
+#     val_dataset = dataset[dataset["origin"] == "icpc2_description"]
 
-    # transform into a list
-    val_list = val_dataset[["code", "text"]]
+#     # transform into a list
+#     val_list = val_dataset[["code", "text"]]
 
-    return val_list
+#     return val_list
 
 
 @st.cache_data()
@@ -57,13 +58,13 @@ def load_csv_github(github_raw_url):
     return df
 
 
-def add_labels_to_prediction(prediction, val_list):
-    for each in prediction:
-        # add a new key,value pair to each dict
-        each["description"] = val_list[val_list["code"] == each["label"]][
-            "text"
-        ].values[0]
-    return prediction
+# def add_labels_to_prediction(prediction, val_list):
+#     for each in prediction:
+#         # add a new key,value pair to each dict
+#         each["description"] = val_list[val_list["code"] == each["label"]][
+#             "text"
+#         ].values[0]
+#     return prediction
 
 
 def prediction_display(prediction, labels_dataframe):
