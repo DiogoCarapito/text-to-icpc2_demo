@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8501
 
 # Run your Streamlit app when the container is started
-ENTRYPOINT ["streamlit", "run", "demo.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

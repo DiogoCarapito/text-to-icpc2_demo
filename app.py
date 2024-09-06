@@ -20,7 +20,7 @@ def main():
     st.set_page_config(
         page_title="text-to-icpc2 Demo",
         page_icon=":ledger:",
-        #layout="wide",
+        # layout="wide",
         initial_sidebar_state="auto",
     )
 
