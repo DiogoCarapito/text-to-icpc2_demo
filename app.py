@@ -4,6 +4,7 @@ import streamlit as st
 from sections.demo import demo
 from sections.dataset import dataset
 from sections.validation import validation
+from sections.sidebar_info import sidebar_info
 
 # from utils.utils import (
 #     device_cuda_mps_cpu,
@@ -24,14 +25,20 @@ def main():
         initial_sidebar_state="auto",
     )
 
+    # info sobre o projeto em side bar
+    sidebar_info()
+
+    # interface da demo de interação com o modelo e render da predição com dados de contexto
     demo()
 
     st.divider()
 
+    # exploração do dataset
     dataset()
 
     st.divider()
 
+    # exploração da validação do dataset
     validation()
 
 

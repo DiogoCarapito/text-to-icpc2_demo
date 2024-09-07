@@ -26,7 +26,7 @@ source .venv/bin/activate
 #### build
 
 ```bash
-docker build -t Home:latest .
+docker build -t app:latest .
 ````
 
 #### check image id
