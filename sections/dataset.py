@@ -18,8 +18,9 @@ def dataset():
         "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/data/data_pre_train.csv"
     )
 
+    st.divider()
+
     # filter section for exploration
-    st.write("## Filtros para exploração")
     col_1, col_2, col_3, col_4 = st.columns(4, vertical_alignment="bottom")
     with col_1:
         # filter by code
@@ -73,12 +74,3 @@ def dataset():
 
     # show filtered dataset
     st.dataframe(dataset_train, use_container_width=True, hide_index=True)
-
-    st.divider()
-
-    # data sources
-    st.subheader("Fontes")
-    data_sources = (
-        "https://github.com/DiogoCarapito/text-to-icpc2/blob/main/data/data_sources.csv"
-    )
-    st.write(data_sources)

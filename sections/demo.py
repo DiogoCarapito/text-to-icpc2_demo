@@ -13,7 +13,7 @@ from utils.utils import (
 
 
 def demo():
-    st.title("text-to-icpc2 Demo")
+    st.title("Demo")
 
     # get available device
     available_device = device_cuda_mps_cpu(force_cpu=True)
@@ -22,9 +22,7 @@ def demo():
     pipe = load_model("diogocarapito/text-to-icpc2", available_device)
 
     # text input
-    text = st.text_input(
-        "Coloque um diagnóstico para o modelo classificar", "diabetes mellitus"
-    )
+    text = st.text_input("Coloque um diagnóstico para o modelo classificar")
 
     # Record the start time
     start_time = timeit.default_timer()

@@ -1,9 +1,14 @@
 # text-to-icpc2 demo
-Streamlit demo of text-to-icpc2 classification model to clasify diagnosis into icpc2 codes
+
+Streamlit demo of text-to-icpc2 classification model to clasify diagnosis into icpc2 codes.
+
+Model available here: [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)
+
+Training dataset here: [https://huggingface.co/datasets/diogocarapito/text-to-icpc2](https://huggingface.co/datasets/diogocarapito/text-to-icpc2)
+
+Code here: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/DiogoCarapito/text-to-icpc2)
 
 [![Github Actions Workflow](https://github.com/DiogoCarapito/text-to-icpc2_demo/actions/workflows/main.yaml/badge.svg)](https://github.com/DiogoCarapito/text-to-icpc2_demo/actions/workflows/main.yaml)
-
-
 
 ## cheat sheet
 
@@ -12,7 +17,7 @@ Streamlit demo of text-to-icpc2 classification model to clasify diagnosis into i
 create venv
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 ```
 
 activate venv
