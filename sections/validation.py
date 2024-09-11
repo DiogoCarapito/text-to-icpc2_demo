@@ -1,5 +1,5 @@
 import streamlit as st
-from utils.utils import load_csv_github
+from utils.utils import load_csv_github, load_predictions_labels
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -7,10 +7,12 @@ import plotly.express as px
 
 def validation():
     st.title("Validação")
-    st.write("Validação para já **apenas** na classificação correta da **descrição ICPC-2** de cada um 726 códigos e não com a lista completa de doenças. Espera-se que classificações com mais volume de dados tenham mais previsões corretas. O **split treino/teste aleatório** pode ter influência na capacidade de classificação do modelo")
-    
+    st.write(
+        "Validação para já **apenas** na classificação correta da **descrição ICPC-2** de cada um 726 códigos e não com a lista completa de doenças. Espera-se que classificações com mais volume de dados tenham mais previsões corretas. O **split treino/teste aleatório** pode ter influência na capacidade de classificação do modelo. Primeiro quero melhorar performace do modelo nas descrições base antes de avançar para as inclusões de todas as doenças."
+    )
+
     st.divider()
-    
+
     # load the frequency table
     df_frequency_model_result = load_csv_github(
         "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/data/data_pre_train.csv"
@@ -30,19 +32,10 @@ def validation():
     # add a log2 count to the frequency_table for better visualization
     frequency_table["count_log2"] = frequency_table["count"].apply(lambda x: np.log2(x))
 
-    # load the correct predictions
-    # df_correct_current_model = load_csv_github("https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/correct_predictions/correct_predictions_862e53bb1e7a4c05ab8a049c5a97a257.csv")
-    df_model_predictions = pd.read_csv(
-        "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/correct_predictions/correct_predictions_862e53bb1e7a4c05ab8a049c5a97a257.csv"
-    )
-
-    # Create a list of codes that are present in correct_prediction
-    df_correct_current_model = df_model_predictions[["code", "top_prediction"]]
-
-    df_correct_current_model = df_correct_current_model.rename(
-        columns={"top_prediction": "is_correct"}
-    )
-    df_correct_current_model["is_correct"] = True
+    # load the correct predictions with a runid
+    # runid is defined in the sidebar and is used to load the correct predictions
+    # if
+    df_correct_current_model = load_predictions_labels(st.session_state["runid"])
 
     # merge frequency_table with correct_prediction into df_frequency_model_result
     df_frequency_model_result = frequency_table.merge(
@@ -92,22 +85,8 @@ def validation():
     # df_frequency_model_result_filter = df_frequency_model_result.copy()
     df_frequency_model_result_icpc2_filter = df_frequency_model_result_icpc2.copy()
 
-    # with col_4_val:
-    #     # filter by origin
-    #     filter_origin_val = st.multiselect(
-    #         "Filtrar por origem",
-    #         df_frequency_model_result["origin"].unique(),
-    #         default=None,
-    #         help="Filtrar por origem específica dos dados(ex: icpc2_description)",
-    #         key="filter_origin_val",
-    #     )
-
     # logic to filter the dataset
     if filter_code_val:
-        # df_frequency_model_result_filter = df_frequency_model_result_filter[
-        #     df_frequency_model_result_filter["code"].str.contains(filter_code_val, case=False)
-        # ]
-
         df_frequency_model_result_icpc2_filter = df_frequency_model_result_icpc2_filter[
             df_frequency_model_result_icpc2_filter["code"].str.contains(
                 filter_code_val, case=False
@@ -115,9 +94,6 @@ def validation():
         ]
 
     if filter_text_val:
-        # df_frequency_model_result_filter = df_frequency_model_result_filter[
-        #     df_frequency_model_result_filter["text"].str.contains(filter_text_val, case=False)
-        # ]
         df_frequency_model_result_icpc2_filter = df_frequency_model_result_icpc2_filter[
             df_frequency_model_result_icpc2_filter["text"].str.contains(
                 filter_text_val, case=False
@@ -125,17 +101,9 @@ def validation():
         ]
 
     if filter_chapter_val:
-        # df_frequency_model_result_filter = df_frequency_model_result_filter[
-        #     df_frequency_model_result_filter["chapter"].isin(filter_chapter_val)
-        # ]
         df_frequency_model_result_icpc2_filter = df_frequency_model_result_icpc2_filter[
             df_frequency_model_result_icpc2_filter["chapter"].isin(filter_chapter_val)
         ]
-
-    # if filter_origin_val:
-    #     df_frequency_model_result_filter = df_frequency_model_result[
-    #         df_frequency_model_result["origin"].isin(filter_origin_val)
-    #     ]
 
     # metric with the number of correct predictions and percentage
     col_1_1, col_1_2, col_1_3 = st.columns(3)
@@ -171,18 +139,17 @@ def validation():
         color="is_correct",
         color_discrete_map={True: "green", False: "red"},
         title="Previsões Corretas ",
-        #hover_data={"code": True, "text": True, "chapter": True},
-    )
-    
-    # Customize hover data
-    fig.update_traces(
-        hovertemplate="<b>Código:</b> %{x}<br>" +
-                    "<b>Texto:</b> %{customdata[1]}<extra></extra><br>" +
-                    "<b>Contagem:</b> %{y}<br>" +
-                    "<b>Capítulo:</b> %{customdata[0]}<br>",
-        customdata=df_frequency_model_result_icpc2_filter[['chapter', 'text']]
+        # hover_data={"code": True, "text": True, "chapter": True},
     )
 
+    # Customize hover data
+    fig.update_traces(
+        hovertemplate="<b>Código:</b> %{x}<br>"
+        + "<b>Texto:</b> %{customdata[1]}<extra></extra><br>"
+        + "<b>Contagem:</b> %{y}<br>"
+        + "<b>Capítulo:</b> %{customdata[0]}<br>",
+        customdata=df_frequency_model_result_icpc2_filter[["chapter", "text"]],
+    )
 
     # Sort the x-axis alphabetically
     fig.update_layout(xaxis={"categoryorder": "category ascending"})

@@ -3,8 +3,6 @@ from transformers import pipeline
 import torch
 import pandas as pd
 
-# from datasets import load_dataset
-
 
 def device_cuda_mps_cpu(force_cpu=False):
     if force_cpu:
@@ -35,36 +33,10 @@ def load_model(model_name, available_device):
     return pipe
 
 
-# @st.cache_data()
-# def load_val_dataset(dataset_link):
-#     # Load the dataset to get the corresponding codes
-#     dataset = load_dataset(dataset_link)
-
-#     # transform to pandas DataFrame
-#     dataset = dataset["train"].to_pandas()
-
-#     # filter only to origin icpc2_description
-#     val_dataset = dataset[dataset["origin"] == "icpc2_description"]
-
-#     # transform into a list
-#     val_list = val_dataset[["code", "text"]]
-
-#     return val_list
-
-
 @st.cache_data()
 def load_csv_github(github_raw_url):
     df = pd.read_csv(github_raw_url)
     return df
-
-
-# def add_labels_to_prediction(prediction, val_list):
-#     for each in prediction:
-#         # add a new key,value pair to each dict
-#         each["description"] = val_list[val_list["code"] == each["label"]][
-#             "text"
-#         ].values[0]
-#     return prediction
 
 
 def prediction_display(prediction, labels_dataframe):
@@ -90,6 +62,24 @@ def prediction_display(prediction, labels_dataframe):
 
         st.write("### Critérios")
         st.write(criteria)
+
+
+def load_predictions_labels(runid="862e53bb1e7a4c05ab8a049c5a97a257"):
+    # load the correct predictions
+    # df_correct_current_model = load_csv_github("https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/correct_predictions/correct_predictions_862e53bb1e7a4c05ab8a049c5a97a257.csv")
+    df_model_predictions = pd.read_csv(
+        f"https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/correct_predictions/correct_predictions_{runid}.csv"
+    )
+
+    # Create a list of codes that are present in correct_prediction
+    df_correct_current_model = df_model_predictions[["code", "top_prediction"]]
+
+    df_correct_current_model = df_correct_current_model.rename(
+        columns={"top_prediction": "is_correct"}
+    )
+    df_correct_current_model["is_correct"] = True
+
+    return df_correct_current_model
 
 
 def func():
