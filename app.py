@@ -3,7 +3,7 @@ from sections.demo import demo
 from sections.dataset import dataset
 from sections.validation import validation
 from sections.sidebar_info import sidebar_info
-from sections.train_test_split import train_test_split
+from sections.split import split
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
 
     with tab_split:
         # exploração do split treino/teste
-        train_test_split()
+        split()
 
 
 if __name__ == "__main__":

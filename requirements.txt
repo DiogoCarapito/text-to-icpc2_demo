@@ -15,4 +15,4 @@ transformers==4.44.0
 datasets
 numpy
 torch
-
+scikit-learn
