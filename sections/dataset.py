@@ -1,6 +1,7 @@
 import streamlit as st
 from utils.utils import load_csv_github
 import pandas as pd
+import plotly.express as px
 
 
 def dataset():
@@ -17,8 +18,6 @@ def dataset():
     dataset_train = load_csv_github(
         "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/data/data_pre_train.csv"
     )
-
-    st.divider()
 
     # filter section for exploration
     col_1, col_2, col_3, col_4 = st.columns(4, vertical_alignment="bottom")
@@ -72,5 +71,42 @@ def dataset():
 
     st.metric("Total de registros selecionados", dataset_train.shape[0])
 
-    # show filtered dataset
-    st.dataframe(dataset_train, use_container_width=True, hide_index=True)
+    # count the frequency of each code
+    frequency_table = dataset_train["code"].value_counts().reset_index()
+
+    # Remove duplicates from dataset_train based on 'code'
+    dataset_train_unique = dataset_train.drop_duplicates(subset="code")
+
+    frequency_table = dataset_train_unique.merge(frequency_table, on="code", how="left")
+
+    # Create a bar chart with Plotly
+    fig = px.bar(
+        frequency_table,
+        x="code",
+        y="count",
+        # color="is_correct",
+        # color_discrete_map={True: "green", False: "red"},
+        title="Distribuição dos códigos ICPC2 no dataset de treino",
+        hover_data={"code": True, "text": True, "chapter": True},
+    )
+
+    # # Customize hover data
+    # fig.update_traces(
+    #     hovertemplate="<b>Código:</b> %{x}<br>"
+    #     + "<b>Texto:</b> %{customdata[1]}<extra></extra><br>"
+    #     + "<b>Capítulo:</b> %{customdata[0]}<br>",
+    #     customdata=frequency_table[["chapter", "text"]],
+    # )
+
+    # Sort the x-axis alphabetically
+    fig.update_layout(xaxis={"categoryorder": "category ascending"})
+
+    tab_tabela, tab_grafico = st.tabs(["Tabela", "Gráfico"])
+
+    with tab_tabela:
+        # show filtered dataset
+        st.dataframe(dataset_train, use_container_width=True, hide_index=True)
+
+    with tab_grafico:
+        # Display the Plotly chart in Streamlit
+        st.plotly_chart(fig)

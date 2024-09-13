@@ -18,7 +18,7 @@ def etl_validation():
 
     # merge the frequency table with the original dataset to get the chapter and origin
     frequency_table = df_frequency_model_result.merge(
-        frequency_table, on="code", how="left"
+        frequency_table[""], on="code", how="left"
     )
 
     # order by the code (index keeps the code order)
