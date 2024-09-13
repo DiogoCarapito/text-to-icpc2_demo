@@ -42,6 +42,7 @@ def load_csv_github(github_raw_url):
 def prediction_display(prediction, labels_dataframe):
     for each in prediction:
         label = each["label"]
+
         description = labels_dataframe[labels_dataframe["cod"] == label]["nome"].values[
             0
         ]
@@ -62,6 +63,32 @@ def prediction_display(prediction, labels_dataframe):
 
         st.write("### Critérios")
         st.write(criteria)
+
+        st.write("### ICD-10")
+        icd_10_code = (
+            labels_dataframe[labels_dataframe["cod"] == label]["ICD_10_new"]
+            .values[0]
+            .split(",")
+        )
+        # remove all [, ] and ' from the list
+        icd_10_code = [
+            x.replace("[", "").replace("]", "").replace("'", "").replace(" ", "")
+            for x in icd_10_code
+        ]
+        icd_10_description = (
+            labels_dataframe[labels_dataframe["cod"] == label][
+                "ICD_10_list_description"
+            ]
+            .values[0]
+            .split("',")
+        )
+        icd_10_description = [
+            x.replace("['", "").replace("']", "").replace(" '", "")
+            for x in icd_10_description
+        ]
+
+        for each in zip(icd_10_code, icd_10_description):
+            st.write(f"{each[0]} - *{each[1]}*")
 
 
 def load_predictions_labels(runid="862e53bb1e7a4c05ab8a049c5a97a257"):

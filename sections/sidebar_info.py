@@ -22,7 +22,7 @@ def sidebar_info():
         st.divider()
 
         st.write(
-            "Este projeto foi desenvolvido por Diogo Carapito com o apoio de bolsa de inviestigação da [AICIB](https://aicib.pt/) e [APMGF](https://apmgf.pt/) no âmbito do internato médico de MGF"
+            "Este projeto foi desenvolvido por Diogo Carapito com o apoio de bolsa de investigação da [AICIB](https://aicib.pt/) e [APMGF](https://apmgf.pt/) no âmbito do internato médico de MGF"
         )
         st.write(
             "Github do projeto: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/DiogoCarapito/text-to-icpc2)"
