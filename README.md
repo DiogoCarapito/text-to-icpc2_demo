@@ -14,15 +14,8 @@ Code here: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/D
 
 ### venv
 
-create venv
-
 ```bash
 python3.12 -m venv .venv
-```
-
-activate venv
-
-```bash
 source .venv/bin/activate
 ```
 

@@ -14,7 +14,7 @@ def sidebar_info():
         )
 
         st.write(
-            "O modelo foi treinado com dados de diagnósticos de saúde e códigos ICPC-2 e correspondencias com o ICD-10, disponível em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
+            "O modelo foi treinado com dados de diagnósticos de saúde e códigos ICPC-2 e correspondencias com o ICD-10, disponível em [https://huggingface.co/dataset/diogocarapito/text-to-icpc2](https://huggingface.co/dataset/diogocarapito/text-to-icpc2)"
         )
         st.write(
             "O modelo foi treinado com a biblioteca Hugging Face *transformers* com base no modelo pré-treinado **bert-base-uncased** e está disponível em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
