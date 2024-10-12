@@ -15,7 +15,7 @@ def main():
         initial_sidebar_state="auto",
     )
 
-    st.session_state["runid"] = "862e53bb1e7a4c05ab8a049c5a97a257"
+    #st.session_state["runid"] = "862e53bb1e7a4c05ab8a049c5a97a257"
 
     # info sobre o projeto em side bar
     sidebar_info()

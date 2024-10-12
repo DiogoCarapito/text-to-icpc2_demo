@@ -28,11 +28,11 @@ def sidebar_info():
             "Github do projeto: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/DiogoCarapito/text-to-icpc2)"
         )
 
-        st.divider()
+        # st.divider()
 
-        # option to change the runid if needed to change validation dataset vi
-        st.session_state["runid"] = st.text_input(
-            "Run ID",
-            value="862e53bb1e7a4c05ab8a049c5a97a257",
-            help="Run ID para carregar a validação correta. Quando se querer usar outras previsções para a validação é colocar aqui o Run ID do MLFlow",
-        )
+        # # option to change the runid if needed to change validation dataset vi
+        # st.session_state["runid"] = st.text_input(
+        #     "Run ID",
+        #     value="862e53bb1e7a4c05ab8a049c5a97a257",
+        #     help="Run ID para carregar a validação correta. Quando se querer usar outras previsções para a validação é colocar aqui o Run ID do MLFlow",
+        # )
