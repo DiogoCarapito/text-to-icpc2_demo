@@ -25,7 +25,7 @@ def demo():
     # model load and pipeline creation
     
     # choose model
-    model_chosen = st.radio("Escolha o modelo", ("text-to-icpc2", "text-to-icpc2-distilbert-base-uncased"))
+    model_chosen = st.radio("Escolha o modelo", ("text-to-icpc2", "text-to-icpc2-bert-base-uncased"))
     
     pipe = load_model(f"diogocarapito/{model_chosen}", available_device)
 
