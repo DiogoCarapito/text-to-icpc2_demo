@@ -25,8 +25,8 @@ def demo():
     # model load and pipeline creation
     
     # choose model
-    #model_chosen = "text-to-icpc2"
-    model_chosen = "text-to-icpc2-bert-base-uncased"
+    model_chosen = "text-to-icpc2"
+    #model_chosen = "text-to-icpc2-bert-base-uncased"
     
     pipe = load_model(f"diogocarapito/{model_chosen}", available_device)
 
