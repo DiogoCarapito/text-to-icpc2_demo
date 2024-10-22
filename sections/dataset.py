@@ -11,7 +11,7 @@ def dataset():
         "Este é um explorador do dataset de treino, onde é possível filtrar os registros por código, texto, capítulo e origem."
     )
     st.write(
-        "O dataset de treino está disponivel em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
+        "O dataset de treino está disponivel em [https://huggingface.co/datasets/diogocarapito/text-to-icpc2](https://huggingface.co/datasets/diogocarapito/text-to-icpc2)"
     )
 
     # load the pos-processed dataset
@@ -79,27 +79,27 @@ def dataset():
 
     frequency_table = dataset_train_unique.merge(frequency_table, on="code", how="left")
 
-    # Create a bar chart with Plotly
+    # Create a stacked bar chart with Plotly
     fig = px.bar(
         frequency_table,
         x="code",
         y="count",
-        # color="is_correct",
-        # color_discrete_map={True: "green", False: "red"},
+        color="origin",
+        color_discrete_map={
+            "gpt-4o-mini_human-dc": "red",
+            "human-dc": "red",
+            "gpt-4o-mini": "green",
+            "icpc2_description": "blue",
+            "icpc2_short": "blue",
+            "icpc2_inclusion": "blue",
+            "icd10_description": "blue",
+        },
         title="Distribuição dos códigos ICPC2 no dataset de treino",
         hover_data={"code": True, "text": True, "chapter": True},
     )
 
-    # # Customize hover data
-    # fig.update_traces(
-    #     hovertemplate="<b>Código:</b> %{x}<br>"
-    #     + "<b>Texto:</b> %{customdata[1]}<extra></extra><br>"
-    #     + "<b>Capítulo:</b> %{customdata[0]}<br>",
-    #     customdata=frequency_table[["chapter", "text"]],
-    # )
-
     # Sort the x-axis alphabetically
-    fig.update_layout(xaxis={"categoryorder": "category ascending"})
+    fig.update_layout(xaxis={"categoryorder": "category ascending"}, barmode="stack")
 
     tab_tabela, tab_grafico = st.tabs(["Tabela", "Gráfico"])
 

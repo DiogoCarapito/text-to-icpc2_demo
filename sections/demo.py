@@ -15,6 +15,10 @@ from utils.utils import (
 def demo():
     st.title("Demo")
 
+    st.write(
+        "O modelo está disponivel em [https://huggingface.co/diogocarapito/text-to-icpc2](https://huggingface.co/diogocarapito/text-to-icpc2)"
+    )
+
     # get available device
     available_device = device_cuda_mps_cpu(force_cpu=True)
 
