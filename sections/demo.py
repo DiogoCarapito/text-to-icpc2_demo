@@ -23,7 +23,11 @@ def demo():
     available_device = device_cuda_mps_cpu(force_cpu=True)
 
     # model load and pipeline creation
-    pipe = load_model("diogocarapito/text-to-icpc2", available_device)
+    
+    # choose model
+    model_chosen = st.radio("Escolha o modelo", ("text-to-icpc2", "text-to-icpc2-distilbert-base-uncased"))
+    
+    pipe = load_model(f"diogocarapito/{model_chosen}", available_device)
 
     # text input
     text = st.text_input("Coloque um diagnóstico para o modelo classificar")
