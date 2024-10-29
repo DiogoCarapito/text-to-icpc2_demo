@@ -32,7 +32,7 @@ supabase = load_supabase()
 
 
 # Function to insert data into Supabase
-def supabase_insert(text_input, predicted_code, predicted_lable, model):
+def supabase_insert(text_input, predicted_text, predicted_code, predicted_lable, model):
     # Get current datetime
     date_time = datetime.now().isoformat()
 
@@ -40,6 +40,7 @@ def supabase_insert(text_input, predicted_code, predicted_lable, model):
     sb_insert = {
         "created_at": date_time,
         "text_input": text_input,
+        "predicted_text": predicted_text,
         "predicted_code": predicted_code,
         "predicted_lable": predicted_lable,
         "model": model,
@@ -115,6 +116,7 @@ def demo_new():
         # text_input, predicted_code, predicted_lable, model
         supabase_insert(
             text,  # text_input
+            predictions[0]["text"],  # predicted_text
             predictions[0]["code"],  # predicted_code
             predictions[0]["label"],  # predicted_lable
             model_chosen,  # model
