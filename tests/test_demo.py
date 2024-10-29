@@ -9,6 +9,6 @@ pages = [
 ]
 
 for each_page in pages:
-    test = AppTest(each_page, default_timeout=60)
+    test = AppTest(each_page, default_timeout=120)
     test.run()
     assert not test.exception

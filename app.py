@@ -1,6 +1,6 @@
 import streamlit as st
 from sections.sidebar_info import sidebar_info
-from sections.demo import demo
+from sections.demo_new import demo_new
 from sections.dataset import dataset
 
 # from sections.validation import validation
@@ -29,7 +29,7 @@ def main():
 
     with tab_demo:
         # interface da demo de interação com o modelo e render da predição com dados de contexto
-        demo()
+        demo_new()
 
     with tab_dataset:
         # exploração do dataset
