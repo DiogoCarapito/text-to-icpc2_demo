@@ -40,8 +40,6 @@ def load_csv_github(github_raw_url):
 
 
 def prediction_display(prediction, labels_dataframe):
-    st.divider()
-
     for each in prediction:
         # label = each["label"]
         label = each["code"]

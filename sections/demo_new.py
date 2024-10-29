@@ -9,8 +9,45 @@ from utils.utils import (
 
 import pandas as pd
 
-# import numpy as np
-# import plotly.express as px
+import os
+from dotenv import load_dotenv
+from supabase import create_client, Client
+from datetime import datetime
+
+
+def load_supabase():
+    # load .env file
+    load_dotenv()
+
+    # get Supabase URL and Key from environment variables
+    url: str = os.environ.get("SUPABASE_URL")
+    key: str = os.environ.get("SUPABASE_KEY")
+    supabase_client: Client = create_client(url, key)
+
+    return supabase_client
+
+
+# Load Supabase
+supabase = load_supabase()
+
+
+# Function to insert data into Supabase
+def supabase_insert(text_input, predicted_code, predicted_lable, model):
+    # Get current datetime
+    date_time = datetime.now().isoformat()
+
+    # Create the data in a format to be inserted into Supabase
+    sb_insert = {
+        "created_at": date_time,
+        "text_input": text_input,
+        "predicted_code": predicted_code,
+        "predicted_lable": predicted_lable,
+        "model": model,
+        # "production": bool(environment),
+    }
+
+    # Insert data into Supabase
+    supabase.table("demo_text-to-icpc2").insert(sb_insert).execute()
 
 
 def demo_new():
@@ -31,49 +68,59 @@ def demo_new():
     # text input
     text = st.text_input("Coloque um diagnóstico para o modelo classificar")
 
-    # Record the start time
-    start_time = timeit.default_timer()
+    if text is not "":
+        # Record the start time
+        start_time = timeit.default_timer()
 
-    # Execute prediction
-    predictions = pipe(text)
+        # Execute prediction
+        predictions = pipe(text)
 
-    # Record the end time
-    end_time = timeit.default_timer()
+        # Record the end time
+        end_time = timeit.default_timer()
 
-    # Calculate the elapsed time
-    elapsed_time = end_time - start_time
+        # Calculate the elapsed time
+        elapsed_time = end_time - start_time
 
-    # Display the elapsed time
-    st.write(
-        f"Tempo necessário para classificação: **{elapsed_time:.4f} segundos** com **'{available_device}'**"
-    )
+        # Display the elapsed time
+        st.write(
+            f"Tempo necessário para classificação: **{elapsed_time:.4f} segundos** com **'{available_device}'**"
+        )
 
-    lables_dataframe = pd.read_csv(
-        "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/data/icpc2_processed.csv"
-    )
+        lables_dataframe = pd.read_csv(
+            "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/main/data/icpc2_processed.csv"
+        )
 
-    lable_code_dict = pd.read_csv(
-        "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/refs/heads/main/data/code_text_label.csv"
-    )
+        lable_code_dict = pd.read_csv(
+            "https://raw.githubusercontent.com/DiogoCarapito/text-to-icpc2/refs/heads/main/data/code_text_label.csv"
+        )
 
-    # st.write(lable_code_dict)
+        # st.write(lable_code_dict)
 
-    for each in predictions:
-        # transform the lable into a icpc2 code
-        if each["label"].startswith("LABEL_"):
-            # split on the "_" and get the 2nd part and make it integer
-            each["label"] = int(each["label"].split("_")[1])
+        for each in predictions:
+            # transform the lable into a icpc2 code
+            if each["label"].startswith("LABEL_"):
+                # split on the "_" and get the 2nd part and make it integer
+                each["label"] = int(each["label"].split("_")[1])
 
-            # get the code
-            each["code"] = lable_code_dict.loc[
-                lable_code_dict["label"] == each["label"], "code"
-            ].values[0]
+                # get the code
+                each["code"] = lable_code_dict.loc[
+                    lable_code_dict["label"] == each["label"], "code"
+                ].values[0]
 
-            # get the desctição
-            each["text"] = lable_code_dict.loc[
-                lable_code_dict["label"] == each["label"], "text"
-            ].values[0]
+                # get the desctição
+                each["text"] = lable_code_dict.loc[
+                    lable_code_dict["label"] == each["label"], "text"
+                ].values[0]
 
-    # st.write(predictions)
+        # text_input, predicted_code, predicted_lable, model
+        supabase_insert(
+            text,  # text_input
+            predictions[0]["code"],  # predicted_code
+            predictions[0]["label"],  # predicted_lable
+            model_chosen,  # model
+        )
 
-    prediction_display(predictions, lables_dataframe)
+        prediction_display(predictions, lables_dataframe)
+
+    else:
+        st.warning("Coloque um diagnóstico para classificar")
