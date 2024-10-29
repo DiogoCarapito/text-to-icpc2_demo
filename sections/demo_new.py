@@ -6,7 +6,7 @@ from utils.utils import (
     prediction_display,
     load_csv_github,
 )
-
+import pyperclip
 import pandas as pd
 
 import os
@@ -32,7 +32,9 @@ supabase = load_supabase()
 
 
 # Function to insert data into Supabase
-def supabase_insert(text_input, predicted_text, predicted_code, predicted_lable, model):
+def supabase_insert(
+    text_input, predicted_text, predicted_code, predicted_lable, model, feedback, copy
+):
     # Get current datetime
     date_time = datetime.now().isoformat()
 
@@ -44,7 +46,8 @@ def supabase_insert(text_input, predicted_text, predicted_code, predicted_lable,
         "predicted_code": predicted_code,
         "predicted_lable": predicted_lable,
         "model": model,
-        # "production": bool(environment),
+        "feedback": feedback,
+        "copy": copy,
     }
 
     # Insert data into Supabase
@@ -52,11 +55,11 @@ def supabase_insert(text_input, predicted_text, predicted_code, predicted_lable,
 
 
 def demo_new():
-    st.title("Demo")
+    st.header("Demo")
 
-    st.write(
-        "O modelo está disponivel em [https://huggingface.co/diogocarapito/text-to-icpc2_bert-base-uncased](https://huggingface.co/diogocarapito/text-to-icpc2)"
-    )
+    # st.write(
+    #     "O modelo está disponivel em [https://huggingface.co/diogocarapito/text-to-icpc2_bert-base-uncased](https://huggingface.co/diogocarapito/text-to-icpc2)"
+    # )
 
     # get available device
     available_device = device_cuda_mps_cpu(force_cpu=True)
@@ -69,7 +72,7 @@ def demo_new():
     # text input
     text = st.text_input("Coloque um diagnóstico para o modelo classificar")
 
-    if text is not "":
+    if text != "":
         # Record the start time
         start_time = timeit.default_timer()
 
@@ -113,6 +116,30 @@ def demo_new():
                     lable_code_dict["label"] == each["label"], "text"
                 ].values[0]
 
+        if "copy" not in st.session_state:
+            st.session_state["copy"] = False
+
+        if "feedback" not in st.session_state:
+            st.session_state["feedback"] = None
+
+        st.write("")
+        st.subheader("O modelo portou-se bem?")
+        
+        col_1, col_2, col_3 = st.columns([1,1,1])
+
+        with col_1:
+            if st.button("Copiar código", type="primary"):
+                pyperclip.copy(predictions[0]["code"])
+                st.session_state["copy"] = True
+
+        with col_2:
+            if st.button("👍", type="primary"):
+                st.session_state["feedback"] = 1
+
+        with col_3:
+            if st.button("👎", type="secondary"):
+                st.session_state["feedback"] = -1
+        st.write("")
         # text_input, predicted_code, predicted_lable, model
         supabase_insert(
             text,  # text_input
@@ -120,6 +147,8 @@ def demo_new():
             predictions[0]["code"],  # predicted_code
             predictions[0]["label"],  # predicted_lable
             model_chosen,  # model
+            st.session_state["feedback"],
+            st.session_state["copy"],
         )
 
         prediction_display(predictions, lables_dataframe)
