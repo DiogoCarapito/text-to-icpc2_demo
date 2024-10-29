@@ -141,6 +141,8 @@ def demo_new():
                 st.session_state["feedback"] = -1
         st.write("")
         # text_input, predicted_code, predicted_lable, model
+        prediction_display(predictions, lables_dataframe)
+        
         supabase_insert(
             text,  # text_input
             predictions[0]["text"],  # predicted_text
@@ -150,8 +152,6 @@ def demo_new():
             st.session_state["feedback"],
             st.session_state["copy"],
         )
-
-        prediction_display(predictions, lables_dataframe)
 
     else:
         st.warning("Coloque um diagnóstico para classificar")
