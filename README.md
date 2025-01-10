@@ -8,6 +8,8 @@ Training dataset here: [https://huggingface.co/datasets/diogocarapito/text-to-ic
 
 Code here: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/DiogoCarapito/text-to-icpc2)
 
+Demo deployed here: [https://text-to-icpc2demo.streamlit.app](https://text-to-icpc2demo.streamlit.app)
+
 [![Github Actions Workflow](https://github.com/DiogoCarapito/text-to-icpc2_demo/actions/workflows/main.yaml/badge.svg)](https://github.com/DiogoCarapito/text-to-icpc2_demo/actions/workflows/main.yaml)
 
 ## cheat sheet
@@ -15,7 +17,7 @@ Code here: [https://github.com/DiogoCarapito/text-to-icpc2](https://github.com/D
 ### venv
 
 ```bash
-python3.12 -m venv .venv
+python3.12 -m venv .venv &&
 source .venv/bin/activate
 ```
 

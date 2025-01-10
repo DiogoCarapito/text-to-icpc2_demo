@@ -67,7 +67,8 @@ def demo_new():
     available_device = device_cuda_mps_cpu(force_cpu=True)
 
     # choose model
-    model_chosen = "text-to-icpc2_bert-base-uncased"
+    # model_chosen = "text-to-icpc2_bert-base-uncased"
+    model_chosen = "text-to-icpc2"
 
     pipe = load_model(f"diogocarapito/{model_chosen}", available_device)
 
