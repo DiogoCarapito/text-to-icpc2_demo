@@ -30,7 +30,10 @@ def load_supabase():
 
 
 # Load Supabase
-supabase = load_supabase()
+try:
+    supabase = load_supabase()
+except Exception as e:
+    print(f"Error loading Supabase: {e}")
 
 
 # Function to insert data into Supabase
@@ -52,8 +55,11 @@ def supabase_insert(
         "copy": copy,
     }
 
-    # Insert data into Supabase
-    supabase.table("demo_text-to-icpc2").insert(sb_insert).execute()
+    try:
+        # Insert data into Supabase
+        supabase.table("demo_text-to-icpc2").insert(sb_insert).execute()
+    except Exception as e:
+        print(f"Error inserting data into Supabase: {e}")
 
 
 def demo_new():
